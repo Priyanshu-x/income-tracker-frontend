@@ -30,7 +30,7 @@ export function TransactionTable() {
 
   const handleEdit = (index) => {
     setEditingIndex(index);
-    setEditData({ ...transactions[index], amount: Number(transactions[index].amount) });
+    setEditData({ ...transactions[index], amount: String(transactions[index].amount) });
   };
 
   const handleSaveEdit = () => {
@@ -124,7 +124,7 @@ export function TransactionTable() {
               />
               <input
                 type="number"
-                value={editData.amount.replace(/[$₹]/g, "")}
+                value={editData.amount}
                 onChange={(e) => setEditData({ ...editData, amount: e.target.value })}
                 placeholder="Amount"
                 className="p-2 border rounded w-full bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
