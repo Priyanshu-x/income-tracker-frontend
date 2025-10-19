@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { Login } from "./pages/Login";
 import BlobCursor from "./components/BlobCursor";
+import { Chatbot } from "./components/Chatbot";
 
 function App() {
   const ProtectedRoute = ({ children }) => {
@@ -60,6 +61,7 @@ function App() {
                   </Routes>
                 </main>
               </div>
+              <Chatbot />
             </div>
           </Router>
         </ThemeProvider>

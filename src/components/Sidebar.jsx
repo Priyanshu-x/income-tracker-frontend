@@ -24,7 +24,7 @@ export function Sidebar() {
       </button>
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0 w-64 bg-white dark:bg-gray-800 shadow-lg dark:shadow-none p-4 transition duration-200 z-10`}>
+      <div className={`fixed inset-y-0 left-0 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0 w-64 bg-white dark:bg-gray-800 shadow-lg dark:shadow-none p-4 transition duration-200 z-50 md:z-10`}>
         <div className="flex items-center space-x-2 mb-6">
           <Wallet className="h-8 w-8 text-primary dark:text-blue-400" />
           <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Income Tracker</h2>
@@ -43,6 +43,12 @@ export function Sidebar() {
         </nav>
         <div className="mt-auto text-sm text-gray-500 dark:text-gray-400">User Info</div>
       </div>
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
     </>
   );
 }

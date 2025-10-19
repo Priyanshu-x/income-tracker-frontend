@@ -52,37 +52,37 @@ export function TransactionTable() {
 
   return (
     <>
-      <div className="glass-card p-4 rounded-lg shadow-md mt-6 overflow-x-auto">
+      <div className="glass-card p-2 sm:p-4 rounded-lg shadow-md mt-6 overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-200 dark:bg-gray-700">
-              <th className="p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("date")}>
+              <th className="p-1 sm:p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("date")}>
                 Date {sortColumn === "date" && (sortDirection === "asc" ? "↑" : "↓")}
               </th>
-              <th className="p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("source")}>
+              <th className="p-1 sm:p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("source")}>
                 Source {sortColumn === "source" && (sortDirection === "asc" ? "↑" : "↓")}
               </th>
-              <th className="p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("amount")}>
+              <th className="p-1 sm:p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("amount")}>
                 Amount {sortColumn === "amount" && (sortDirection === "asc" ? "↑" : "↓")}
               </th>
-              <th className="p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("category")}>
+              <th className="p-1 sm:p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("category")}>
                 Category {sortColumn === "category" && (sortDirection === "asc" ? "↑" : "↓")}
               </th>
-              <th className="p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("description")}>
+              <th className="p-1 sm:p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("description")}>
                 Description {sortColumn === "description" && (sortDirection === "asc" ? "↑" : "↓")}
               </th>
-              <th className="p-2 text-gray-800 dark:text-gray-200">Actions</th>
+              <th className="p-1 sm:p-2 text-gray-800 dark:text-gray-200">Actions</th>
             </tr>
           </thead>
           <tbody>
             {sortedTransactions.map((transaction, index) => (
               <tr key={index} className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
-                <td className="p-2">{transaction.date}</td>
-                <td className="p-2">{transaction.source}</td>
-                <td className="p-2">{`₹${Number(transaction.amount).toFixed(2)}`}</td>
-                <td className="p-2">{transaction.category}</td>
-                <td className="p-2">{transaction.description || "N/A"}</td>
-                <td className="p-2 flex space-x-2">
+                <td className="p-1 sm:p-2">{transaction.date}</td>
+                <td className="p-1 sm:p-2">{transaction.source}</td>
+                <td className="p-1 sm:p-2">{`₹${Number(transaction.amount).toFixed(2)}`}</td>
+                <td className="p-1 sm:p-2">{transaction.category}</td>
+                <td className="p-1 sm:p-2">{transaction.description || "N/A"}</td>
+                <td className="p-1 sm:p-2 flex flex-col sm:flex-row gap-1 sm:space-x-2">
                   <button
                     onClick={() => handleDelete(transaction._id)}
                     className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
@@ -104,8 +104,8 @@ export function TransactionTable() {
 
       {editingIndex !== null && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md text-gray-900 dark:text-gray-100">
-            <h3 className="text-xl font-bold mb-4">Edit Transaction</h3>
+          <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg w-11/12 sm:w-full max-w-md text-gray-900 dark:text-gray-100">
+            <h3 className="text-lg sm:text-xl font-bold mb-4">Edit Transaction</h3>
             <form onSubmit={(e) => { e.preventDefault(); handleSaveEdit(); }} className="space-y-4">
               <input
                 type="date"
@@ -147,7 +147,7 @@ export function TransactionTable() {
                 rows="3"
                 className="p-2 border rounded w-full bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
               ></textarea>
-              <div className="flex space-x-4">
+              <div className="flex flex-col sm:flex-row gap-2 sm:space-x-4 mt-4">
                 <button
                   type="submit"
                   className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 w-full"
