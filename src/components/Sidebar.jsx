@@ -27,7 +27,7 @@ export function Sidebar() {
       <div className={`fixed inset-y-0 left-0 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0 w-64 bg-white dark:bg-gray-800 shadow-lg dark:shadow-none p-4 transition duration-200 z-50 md:z-10`}>
         <div className="flex items-center space-x-2 mb-6">
           <Wallet className="h-8 w-8 text-primary dark:text-dark-primary" />
-          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Income Tracker</h2>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Money Tracker</h2>
         </div>
         <nav className="space-y-2">
           {navItems.map((item) => (
