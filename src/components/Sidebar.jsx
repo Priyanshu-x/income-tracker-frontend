@@ -15,7 +15,7 @@ export function Sidebar() {
     <>
       {/* Hamburger for mobile */}
       <button
-        className="md:hidden p-4 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-blue-400"
+        className="md:hidden p-4 text-gray-600 dark:text-dark-text hover:text-primary dark:hover:text-dark-primary"
         onClick={() => setIsOpen(!isOpen)}
       >
         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,7 +26,7 @@ export function Sidebar() {
       {/* Sidebar */}
       <div className={`fixed inset-y-0 left-0 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:relative md:translate-x-0 w-64 bg-white dark:bg-gray-800 shadow-lg dark:shadow-none p-4 transition duration-200 z-50 md:z-10`}>
         <div className="flex items-center space-x-2 mb-6">
-          <Wallet className="h-8 w-8 text-primary dark:text-blue-400" />
+          <Wallet className="h-8 w-8 text-primary dark:text-dark-primary" />
           <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Income Tracker</h2>
         </div>
         <nav className="space-y-2">
@@ -34,7 +34,7 @@ export function Sidebar() {
             <Link
               key={item.path}
               to={item.path}
-              className="flex items-center space-x-2 p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md hover:text-primary dark:hover:text-blue-400"
+              className="flex items-center space-x-2 p-2 text-gray-600 dark:text-dark-text hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md hover:text-primary dark:hover:text-dark-primary"
             >
               <item.icon className="h-5 w-5" />
               <span>{item.label}</span>

@@ -1,7 +1,6 @@
 import { StatsCard } from "../components/StatsCard";
 import { TransactionTable } from "../components/TransactionTable";
 import { useTransaction } from "../context/TransactionContext";
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 
@@ -9,19 +8,26 @@ export function Dashboard() {
   const { transactions, updateTransaction, deleteTransaction, loading, error } = useTransaction();
   const { logout } = useAuth();
 
-  const totalIncome = transactions.reduce((sum, t) => sum + Number(t.amount), 0);
+  const totalIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + Number(t.amount), 0);
+  const totalExpenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + Number(t.amount), 0);
+  const netBalance = totalIncome + totalExpenses;
   const currentMonth = new Date().toLocaleString('default', { month: 'short' });
-  const thisMonthIncome = transactions.reduce((sum, t) => {
+  const thisMonthIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => {
+    const transactionMonth = new Date(t.date).toLocaleString('default', { month: 'short' });
+    return transactionMonth === currentMonth ? sum + Number(t.amount) : sum;
+  }, 0);
+  const thisMonthExpenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => {
     const transactionMonth = new Date(t.date).toLocaleString('default', { month: 'short' });
     return transactionMonth === currentMonth ? sum + Number(t.amount) : sum;
   }, 0);
 
-  // Mock stats (to be updated with real data later)
   const stats = [
     { title: "Total Income", value: totalIncome, trend: 5.2, color: "bg-chart-1" },
-    { title: "This Month", value: thisMonthIncome, trend: -1.8, color: "bg-chart-2" },
-    { title: "Top Source", value: "Freelancing", trend: 8.3, color: "bg-chart-3" },
-    { title: "Average Monthly", value: "₹1,800", trend: 3.5, color: "bg-chart-4" },
+    { title: "Total Expenses", value: Math.abs(totalExpenses), trend: -3.1, color: "bg-red-500" },
+    { title: "Net Balance", value: netBalance, trend: 0, color: "bg-blue-500" },
+    { title: "This Month Income", value: thisMonthIncome, trend: -1.8, color: "bg-chart-2" },
+    { title: "This Month Expenses", value: thisMonthExpenses, trend: 4.5, color: "bg-red-700" },
+    { title: "Top Source", value: "Trading", trend: 8.3, color: "bg-chart-3" },
   ];
 
   return (

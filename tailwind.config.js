@@ -8,7 +8,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primary': '#1D4ED8',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        'dark-text': '#E0E0E0', // Light gray for text in dark mode
+        'dark-background': '#121212', // Very dark gray/black for overall background
         'chart-1': '#8884d8',
         'chart-2': '#82ca9d',
         'chart-3': '#ffc658',

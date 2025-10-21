@@ -5,12 +5,14 @@ import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import { useTransaction } from "../context/TransactionContext"; // Import useTransaction
 import { AddIncomeForm } from "./AddIncomeForm"; // Import AddIncomeForm
+import AddExpenseForm from "./AddExpenseForm"; // Import AddExpenseForm
 
 export function Navbar() {
   const { isDarkMode, toggleDarkMode } = useTheme();
   const { logout } = useAuth();
   const { transactions, addTransaction } = useTransaction(); // Get transactions and addTransaction
   const [isAddIncomeFormOpen, setIsAddIncomeFormOpen] = useState(false);
+  const [isAddExpenseFormOpen, setIsAddExpenseFormOpen] = useState(false); // State for expense form
 
   const handleAddIncomeClick = () => {
     setIsAddIncomeFormOpen(true);
@@ -18,6 +20,14 @@ export function Navbar() {
 
   const handleCloseAddIncomeForm = () => {
     setIsAddIncomeFormOpen(false);
+  };
+
+  const handleAddExpenseClick = () => { // Function to open expense form
+    setIsAddExpenseFormOpen(true);
+  };
+
+  const handleCloseAddExpenseForm = () => { // Function to close expense form
+    setIsAddExpenseFormOpen(false);
   };
 
   // Basic export to CSV (client-side)
@@ -72,6 +82,12 @@ export function Navbar() {
             Add Income
           </button>
           <button
+            onClick={handleAddExpenseClick} // Add expense button
+            className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-md hover:from-red-600 hover:to-red-800 transition-all duration-200"
+          >
+            Add Expense
+          </button>
+          <button
             onClick={exportTransactions}
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-all duration-200"
           >
@@ -111,6 +127,11 @@ export function Navbar() {
       {isAddIncomeFormOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center z-50">
           <AddIncomeForm onAdd={addTransaction} onClose={handleCloseAddIncomeForm} />
+        </div>
+      )}
+      {isAddExpenseFormOpen && ( // Conditionally render AddExpenseForm
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center z-50">
+          <AddExpenseForm onClose={handleCloseAddExpenseForm} />
         </div>
       )}
     </nav>

@@ -6,7 +6,7 @@ export function TransactionTable() {
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [editingIndex, setEditingIndex] = useState(null);
-  const [editData, setEditData] = useState({ date: "", source: "", amount: "", category: "", description: "" });
+  const [editData, setEditData] = useState({ date: "", source: "", amount: "", category: "", description: "", type: "" });
 
   const handleSort = (column) => {
     if (sortColumn === column) {
@@ -28,9 +28,12 @@ export function TransactionTable() {
     deleteTransaction(id);
   };
 
-  const handleEdit = (index) => {
-    setEditingIndex(index);
-    setEditData({ ...transactions[index], amount: String(transactions[index].amount) });
+  const handleEdit = (id) => {
+    const transactionToEdit = transactions.find(t => t._id === id);
+    if (transactionToEdit) {
+      setEditingIndex(id); // Use id as editingIndex to identify the transaction
+      setEditData({ ...transactionToEdit, amount: String(transactionToEdit.amount), type: transactionToEdit.type });
+    }
   };
 
   const handleSaveEdit = () => {
@@ -39,7 +42,7 @@ export function TransactionTable() {
         ...editData,
         amount: Number(editData.amount.replace(/[$₹]/g, "")), // Convert to number for backend
       };
-      updateTransaction(updatedTransaction._id, updatedTransaction); // Use updateTransaction
+      updateTransaction(editingIndex, updatedTransaction); // Use editingIndex (which is the _id)
       setEditingIndex(null);
       setEditData({ date: "", source: "", amount: "", category: "", description: "" });
     }
@@ -47,7 +50,7 @@ export function TransactionTable() {
 
   const handleCancelEdit = () => {
     setEditingIndex(null);
-    setEditData({ date: "", source: "", amount: "", category: "", description: "" });
+    setEditData({ date: "", source: "", amount: "", category: "", description: "", type: "" });
   };
 
   return (
@@ -71,27 +74,33 @@ export function TransactionTable() {
               <th className="p-1 sm:p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("description")}>
                 Description {sortColumn === "description" && (sortDirection === "asc" ? "↑" : "↓")}
               </th>
+              <th className="p-1 sm:p-2 text-left cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200" onClick={() => handleSort("type")}>
+                Type {sortColumn === "type" && (sortDirection === "asc" ? "↑" : "↓")}
+              </th>
               <th className="p-1 sm:p-2 text-gray-800 dark:text-gray-200">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {sortedTransactions.map((transaction, index) => (
-              <tr key={index} className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
-                <td className="p-1 sm:p-2">{transaction.date}</td>
-                <td className="p-1 sm:p-2">{transaction.source}</td>
-                <td className="p-1 sm:p-2">{`₹${Number(transaction.amount).toFixed(2)}`}</td>
-                <td className="p-1 sm:p-2">{transaction.category}</td>
-                <td className="p-1 sm:p-2">{transaction.description || "N/A"}</td>
+            {sortedTransactions.map((t) => (
+              <tr key={t._id} className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200">
+                <td className="p-1 sm:p-2">{t.date}</td>
+                <td className="p-1 sm:p-2">{t.source}</td>
+                <td className="p-1 sm:p-2">{`₹${Number(t.amount).toFixed(2)}`}</td>
+                <td className="p-1 sm:p-2">{t.category}</td>
+                <td className="p-1 sm:p-2">{t.description || "N/A"}</td>
+                <td className={`p-1 sm:p-2 ${t.type === "income" ? "text-green-600" : "text-red-600"}`}>
+                  {t.type}
+                </td>
                 <td className="p-1 sm:p-2 flex flex-col sm:flex-row gap-1 sm:space-x-2">
                   <button
-                    onClick={() => handleDelete(transaction._id)}
-                    className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                    onClick={() => handleDelete(t._id)}
+                    className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800"
                   >
                     Delete
                   </button>
                   <button
-                    onClick={() => handleEdit(index)}
-                    className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                    onClick={() => handleEdit(t._id)}
+                    className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 dark:bg-yellow-700 dark:hover:bg-yellow-800"
                   >
                     Edit
                   </button>
@@ -131,6 +140,15 @@ export function TransactionTable() {
                 required
               />
               <select
+                value={editData.type}
+                onChange={(e) => setEditData({ ...editData, type: e.target.value })}
+                className="p-2 border rounded w-full bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                required
+              >
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+              <select
                 value={editData.category}
                 onChange={(e) => setEditData({ ...editData, category: e.target.value })}
                 className="p-2 border rounded w-full bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
@@ -150,14 +168,14 @@ export function TransactionTable() {
               <div className="flex flex-col sm:flex-row gap-2 sm:space-x-4 mt-4">
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 w-full"
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-800 w-full"
                 >
                   Save
                 </button>
                 <button
                   type="button"
                   onClick={handleCancelEdit}
-                  className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 w-full"
+                  className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-800 w-full"
                 >
                   Cancel
                 </button>

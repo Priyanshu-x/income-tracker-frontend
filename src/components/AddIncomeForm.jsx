@@ -7,12 +7,12 @@ export function AddIncomeForm({ onAdd, onClose }) {
     date: "",
     source: "",
     amount: "",
-    category: "Freelancing",
+    category: "Trading",
     description: "",
   });
   const [error, setError] = useState("");
 
-  const categories = ["Freelancing", "Trading", "Salary", "Gigs", "Other"];
+  const categories = ["Trading","Freelancing", "Salary", "Gigs", "Other"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +30,7 @@ export function AddIncomeForm({ onAdd, onClose }) {
       setError("Amount must be a positive number.");
       return;
     }
-    onAdd({ ...formData, amount: Number(formData.amount), date: formData.date, description: formData.description });
+    onAdd({ ...formData, amount: Number(formData.amount), date: formData.date, description: formData.description, type: "income" });
     onClose();
   };
 
@@ -101,13 +101,13 @@ export function AddIncomeForm({ onAdd, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="w-full sm:w-auto px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors duration-200 text-base sm:text-sm"
+            className="w-full sm:w-auto px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors duration-200 text-base sm:text-sm dark:bg-gray-700 dark:hover:bg-gray-600"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-md hover:from-blue-600 hover:to-purple-700 transition-all duration-200 text-base sm:text-sm"
+            className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-md hover:from-blue-600 hover:to-purple-700 transition-all duration-200 text-base sm:text-sm dark:from-blue-700 dark:to-purple-700 dark:hover:from-blue-600 dark:hover:to-purple-600"
           >
             Add Income
           </button>

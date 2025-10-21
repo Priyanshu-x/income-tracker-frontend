@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: 221 83% 48%; /* Default primary color (blue) */
+  --primary-foreground: 210 20% 98%;
+}
+
+.dark {
+  --primary: 217 33% 12%; /* Darker primary color for dark mode (almost black) */
+  --primary-foreground: 210 20% 98%;
+}
+
+/* Apply dark mode background color to the body */
+body {
+  @apply bg-white dark:bg-dark-background text-gray-900 dark:text-dark-text;
+}
+
 .glass-card {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -9,6 +24,6 @@
 }
 
 .dark .glass-card {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.2); /* Slightly more opaque for dark mode */
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
